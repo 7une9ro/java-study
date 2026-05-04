@@ -1,25 +1,12 @@
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
 
 public class Main {
-    public static void main(String[] args){
-        List<Integer> list = new ArrayList<>();
+    public static void main(String[] args) {
+        Box<String> box = new Box<>();
 
-        for (int i = 1; i <= 100; i++) {
-            list.add(i);
-        }
+        // box.setItem(new Object()); <- **컴파일** 에러 발생!
+        box.setItem("ABC");
 
-//        Stream<Integer> singleThreadStream = list.stream();
-//        singleThreadStream.forEach((value) -> {
-//            Thread thread = Thread.currentThread();
-//            System.out.println(thread.getName() + ": " + value);
-//        });
-
-        Stream<Integer> multiThreadStream = list.parallelStream();
-        multiThreadStream.forEach((value) -> {
-            Thread thread = Thread.currentThread();
-            System.out.println(thread.getName() + ": " + value);
-        });
+        String item = box.getItem(); // 형 변환이 필요없음
     }
 }

@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
 public class Box<T extends Fruit> {
-    ArrayList<T> boxes = new ArrayList<>();
+    private final ArrayList<T> boxes = new ArrayList<>();
 
     void add(T item) {
         this.boxes.add(item);
     }
 
     T get(int i) {
-        return (T)this.boxes.get(i);
+        return this.boxes.get(i);
     }
 
     int size() {

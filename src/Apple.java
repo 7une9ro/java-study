@@ -1,5 +1,7 @@
 public class Apple extends Fruit {
-    public String toString() {
-        return "Apple";
+    private static long counter = 0;
+
+    public Apple() {
+        super("사과", ++counter);
     }
 }

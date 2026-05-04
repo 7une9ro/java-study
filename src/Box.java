@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
-public class Box<T> {
-    ArrayList<T> boxes = new ArrayList();
+public class Box<T extends Fruit> {
+    ArrayList<T> boxes = new ArrayList<>();
 
     void add(T item) {
         this.boxes.add(item);

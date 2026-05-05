@@ -13,17 +13,22 @@ public class Main {
         students.add(new Student("홍길동", 60));
         students.add(new Student("홍박사", 70));
         students.add(new Student("김수현", 80));
+        System.out.println("---------------");
 
 
-        /*  distinct(): 요소의 중복을 제거하는 메서드
-         객체 Stream일 경우 내부적으로 객체의 중복을 판단할 때 두 가지 단계를 거침.
-            1. hashCode() -> 2. equals()
+        /// '홍'씨인 학생 요소만 필터링
+        students.stream()
+                .filter(student -> student.getName().startsWith("홍"))
+                .forEach(student -> System.out.println(student.getName()));
 
-         다만, 사용자가 직접 만든 클래스에서 equals()와 hashCode() 메서드를 오버라이딩하지 않으면
-         객체의 필드 값들이 같아도 메모리 주소가 다르면 다른 객체로 판단해버림.
-         */
+        System.out.println();
+        System.out.println("---------------");
+
+
+        /// 중복 요소를 제거하고나서 '김'씨인 학생 요소만 필터링
         students.stream()
                 .distinct()
+                .filter(student -> student.getName().startsWith("김"))
                 .forEach(student -> System.out.println(student.getName()));
     }
 }

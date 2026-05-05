@@ -1,25 +1,34 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
-        Box<Fruit> fruitBox = new FruitBox<>();
-        fruitBox.add(new Apple());
-        fruitBox.add(new Grape());
-        fruitBox.add(new Apple());
-        fruitBox.add(new Grape());
 
-        /*
-         * `makeJuice(Box<? extends Fruit> box)` 메서드 호출 시
-         *  타입 파라미터는 Fruit와 그 자식 타입만 지정 가능함.
-         */
+        ArrayList<Student> students = new ArrayList<>();
 
-        // `makeJuice(Box<? extends Fruit> box)` <- new FruitBox<Fruit>();
-        Juicer.makeJuice(fruitBox);
+        students.add(new Student("김철수", 10));
+        students.add(new Student("김수현", 20));
+        students.add(new Student("김철수", 30));
+        students.add(new Student("박짱구", 40));
+        students.add(new Student("박지구", 50));
+        students.add(new Student("홍길동", 60));
+        students.add(new Student("홍박사", 70));
+        students.add(new Student("김수현", 80));
+        System.out.println("---------------");
 
 
-        Box<Apple> appleBox = new FruitBox<>();
-        appleBox.add(new Apple());
-        appleBox.add(new Apple());
+        /// '홍'씨인 학생 요소만 필터링
+        students.stream()
+                .filter(student -> student.getName().startsWith("홍"))
+                .forEach(student -> System.out.println(student.getName()));
 
-        // `makeJuice(Box<? extends Fruit> box)` <- new FruitBox<Apple>();
-        Juicer.makeJuice(appleBox);
+        System.out.println();
+        System.out.println("---------------");
+
+
+        /// 중복 요소를 제거하고나서 '김'씨인 학생 요소만 필터링
+        students.stream()
+                .distinct()
+                .filter(student -> student.getName().startsWith("김"))
+                .forEach(student -> System.out.println(student.getName()));
     }
 }

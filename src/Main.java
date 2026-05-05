@@ -18,17 +18,16 @@ public class Main {
 
         /// '홍'씨인 학생 요소만 필터링
         students.stream()
-                .filter(student -> student.getName().startsWith("홍"))
-                .forEach(student -> System.out.println(student.getName()));
+                .map(Student::getName)
+                .filter(name -> name.startsWith("홍"))
+                .forEach(System.out::println);
 
-        System.out.println();
         System.out.println("---------------");
 
-
         /// 중복 요소를 제거하고나서 '김'씨인 학생 요소만 필터링
-        students.stream()
-                .distinct()
-                .filter(student -> student.getName().startsWith("김"))
-                .forEach(student -> System.out.println(student.getName()));
+        students.stream().distinct()
+                .map(Student::getName)
+                .filter(name -> name.startsWith("김"))
+                .forEach(System.out::println);
     }
 }

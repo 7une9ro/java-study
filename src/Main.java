@@ -1,77 +1,49 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
+        List<Student> students = Arrays.asList(
+                new Student("홍길동", 10)
+                , new Student("김철수", 20)
+                , new Student("박짱구", 30)
+        );
 
-        // List
-        ArrayList<String> strList = new ArrayList<>();
-        strList.add("홍길동");
-        strList.add("김철수");
-        strList.add("박짱구");
 
-        System.out.println("--------List--------");
-
-        // 1. 기본 for문 (외부 반복자)
-        for (int i = 0; i < strList.size(); i++) {
-            String name = strList.get(i);
-            System.out.println(name);
-        }
-
-        // 2. 향상된 for문 (외부 반복자)
-        for (String name : strList) {
-            System.out.println(name);
-        }
-
-        // Set
-        HashSet<String> strSet = new HashSet<>();
-        strSet.add("홍길동");
-        strSet.add("김철수");
-        strSet.add("박짱구");
-
-        System.out.println("--------Set--------");
-
-        // 1. Iterator (외부 반복자)
-        Iterator<String> iterator = strSet.iterator();
-        while (iterator.hasNext()) {
-            String name = iterator.next();
-            System.out.println(name);
-        }
-
-        // 2. 향상된 for문 (외부 반복자)
-        for (String name : strSet) {
-            System.out.println(name);
-        }
-
-        System.out.println("--------Stream--------");
-
-        // Stream - List
-        Stream<String> listStream = strList.stream();
-
-        System.out.println("--------List--------");
-        listStream.forEach(name -> System.out.println(name));
-
-        /*
-         * 메서드 참조 방식으로 위의 람다식이 더 축약된 형태임
-         * `listStream.forEach(System.out::println);`
+        /*  1. Stream 객체 생성
          *
-         *  [참고!]
-         *  stream()을 통해 얻은 Stream 객체는 재사용이 불가능하기 때문에
-         *  새로운 Stream을 다시 생성해야 함.
+         * { "홍길동", 10 }
+         * { "김철수", 20 }
+         * { "박짱구", 30 }
          */
+        Stream<Student> studentStream = students.stream();
 
-        Stream<String> listStream2 = strList.stream();
-        listStream2.forEach(System.out::println);
 
-        // Stream - Set
-        Stream<String> setStream = strSet.stream();
+        /*  2. 중간 처리
+         *  Student 객체가 가지고 있는 score를 뽑아서 Integer 요소들을 담는 Stream으로 변환
+         *
+         * { "홍길동", 10 } -> 10
+         * { "김철수", 20 } -> 20
+         * { "박짱구", 30 } -> 30
+         */
+        IntStream scoreStream = studentStream.mapToInt(Student::getScore);
 
-        System.out.println("--------Set--------");
-        setStream.forEach(name -> System.out.println(name));
+        /*  3. 최종 처리
+         *  scoreStream에 들어있는 Integer 요소들의 평균 값을 계산 (집계 처리)
+         */
+        double avgScore = scoreStream.average().orElse(0.0);
 
-        Stream<String> setStream2 = strSet.stream();
-        setStream2.forEach(System.out::println);
+        System.out.println("avgScore = " + avgScore);
+
+
+        // 메서드 체이닝 방식
+        double avgScore2 = students.stream()
+                .mapToInt(Student::getScore)
+                .average()
+                .orElse(0.0);
+
+        System.out.println("avgScore2 = " + avgScore2);
     }
 }

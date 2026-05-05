@@ -1,49 +1,29 @@
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        List<Student> students = Arrays.asList(
-                new Student("홍길동", 10)
-                , new Student("김철수", 20)
-                , new Student("박짱구", 30)
-        );
+
+        ArrayList<Student> students = new ArrayList<>();
+
+        students.add(new Student("김철수", 10));
+        students.add(new Student("김수현", 20));
+        students.add(new Student("김철수", 30));
+        students.add(new Student("박짱구", 40));
+        students.add(new Student("박지구", 50));
+        students.add(new Student("홍길동", 60));
+        students.add(new Student("홍박사", 70));
+        students.add(new Student("김수현", 80));
 
 
-        /*  1. Stream 객체 생성
-         *
-         * { "홍길동", 10 }
-         * { "김철수", 20 }
-         * { "박짱구", 30 }
+        /*  distinct(): 요소의 중복을 제거하는 메서드
+         객체 Stream일 경우 내부적으로 객체의 중복을 판단할 때 두 가지 단계를 거침.
+            1. hashCode() -> 2. equals()
+
+         다만, 사용자가 직접 만든 클래스에서 equals()와 hashCode() 메서드를 오버라이딩하지 않으면
+         객체의 필드 값들이 같아도 메모리 주소가 다르면 다른 객체로 판단해버림.
          */
-        Stream<Student> studentStream = students.stream();
-
-
-        /*  2. 중간 처리
-         *  Student 객체가 가지고 있는 score를 뽑아서 Integer 요소들을 담는 Stream으로 변환
-         *
-         * { "홍길동", 10 } -> 10
-         * { "김철수", 20 } -> 20
-         * { "박짱구", 30 } -> 30
-         */
-        IntStream scoreStream = studentStream.mapToInt(Student::getScore);
-
-        /*  3. 최종 처리
-         *  scoreStream에 들어있는 Integer 요소들의 평균 값을 계산 (집계 처리)
-         */
-        double avgScore = scoreStream.average().orElse(0.0);
-
-        System.out.println("avgScore = " + avgScore);
-
-
-        // 메서드 체이닝 방식
-        double avgScore2 = students.stream()
-                .mapToInt(Student::getScore)
-                .average()
-                .orElse(0.0);
-
-        System.out.println("avgScore2 = " + avgScore2);
+        students.stream()
+                .distinct()
+                .forEach(student -> System.out.println(student.getName()));
     }
 }

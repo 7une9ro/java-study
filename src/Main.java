@@ -15,10 +15,10 @@ public class Main {
                 , new Student("홍박사", 70)
                 , new Student("김수현", 80)};
 
-        System.out.println("------ List 불변 컬렉션 생성 ------");
-
         ArrayList<Student> listStudent = new ArrayList<>();
         Collections.addAll(listStudent, students);
+
+        System.out.println("------ List 불변 컬렉션 생성 ------");
 
         // 1. List 컬렉션 복사해서 -> List 불변 컬렉션 생성
         List<Student> immutableList1 = List.copyOf(listStudent);

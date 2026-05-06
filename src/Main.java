@@ -1,8 +1,6 @@
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,26 +15,33 @@ public class Main {
                 , new Student("홍박사", 70)
                 , new Student("김수현", 80)};
 
-        HashSet<Student> setStudent = new HashSet<>();
-        Collections.addAll(setStudent, students);
+        HashMap<Integer, Student> mapStudent = new HashMap<>();
+        int counter = 0;
+        for (Student student : students) {
+            mapStudent.put(counter++, student);
+        }
 
-        System.out.println("------ Set 불변 컬렉션 생성 ------");
+        System.out.println("------ Map 불변 컬렉션 생성 ------");
 
-        // 1. Set 컬렉션 복사해서 -> Set 불변 컬렉션 생성
-        Set<Student> immutableSet1 = Set.copyOf(setStudent);
+        // 1. Map 컬렉션 복사해서 -> Map 불변 컬렉션 생성
+        Map<Integer, Student> immutableMap1 = Map.copyOf(mapStudent);
 
-        System.out.println("immutableSet1: " + System.identityHashCode(immutableSet1));
-        immutableSet1.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
+        System.out.println("immutableMap1: " + System.identityHashCode(immutableMap1));
+        immutableMap1.forEach((id, student) -> System.out.println("key: " + id + ", name = " + student.getName() + ", score = " + student.getScore()));
         System.out.println();
 
-        // 2. Set 불변 컬렉션 생성
-        /*  toUnmodifiableSet()
+        // 2. Map 불변 컬렉션 생성
+        /*  toUnmodifiableMap()
           내부적으로 중복을 제거하는 로직이 포함되어 있음
          */
-        Set<Student> immutableSet2 = Arrays.stream(students)
-                .collect(Collectors.toUnmodifiableSet());
+        Map<Integer, Student> immutableMap2 = IntStream.range(0, students.length)
+                .boxed()
+                .collect(Collectors.toUnmodifiableMap(
+                        i -> i,
+                        i -> students[i]
+                ));
 
-        System.out.println("immutableList2: " + System.identityHashCode(immutableSet2));
-        immutableSet2.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
+        System.out.println("immutableMap2: " + System.identityHashCode(immutableMap2));
+        immutableMap2.forEach((id, student) -> System.out.println("key: " + id + ", name = " + student.getName() + ", score = " + student.getScore()));
     }
 }

@@ -24,12 +24,9 @@ public class Student implements Comparable<Student> {
         if (this == obj)
             return true;
 
-        // 비교하려는 객체가 존재하지 않거나 클래스 타입이 다른 경우에는 당연히 객체가 다르므로 false 반환
-        if (obj == null || getClass() != obj.getClass())
+        // obj 매개변수로 전달받은 객체가 Student 타입의 인스턴스라면 student 변수에 담김
+        if (!(obj instanceof Student student))
             return false;
-
-        // 위 조건들에 충족되지 않았으면 Student 객체이므로 Student 타입으로 강제 형 변환 해줌
-        Student student = (Student) obj;
 
         // ** name 필드 값만 비교 **해서 객체의 동일 여부 판단
         return Objects.equals(name, student.name);

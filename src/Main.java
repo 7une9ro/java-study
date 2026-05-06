@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -19,7 +22,7 @@ public class Main {
 
         System.out.println("------ Set 불변 컬렉션 생성 ------");
 
-        // 1. Set 컬렉션 복사해서 -> List 불변 컬렉션 생성
+        // 1. Set 컬렉션 복사해서 -> Set 불변 컬렉션 생성
         Set<Student> immutableSet1 = Set.copyOf(setStudent);
 
         System.out.println("immutableSet1: " + System.identityHashCode(immutableSet1));

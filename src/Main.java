@@ -1,33 +1,51 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        ArrayList<Student> students = new ArrayList<>();
+        Student[] students = {
+                new Student("김철수", 10)
+                , new Student("김수현", 20)
+                , new Student("김철수", 30)
+                , new Student("박짱구", 40)
+                , new Student("박지구", 50)
+                , new Student("홍길동", 60)
+                , new Student("홍박사", 70)
+                , new Student("김수현", 80)};
 
-        students.add(new Student("김철수", 10));
-        students.add(new Student("김수현", 20));
-        students.add(new Student("김철수", 30));
-        students.add(new Student("박짱구", 40));
-        students.add(new Student("박지구", 50));
-        students.add(new Student("홍길동", 60));
-        students.add(new Student("홍박사", 70));
-        students.add(new Student("김수현", 80));
-        System.out.println("---------------");
+        ArrayList<Student> listStudent = new ArrayList<>();
+        Collections.addAll(listStudent, students);
 
+        System.out.println("------ List 불변 컬렉션 생성 ------");
 
-        /// '홍'씨인 학생 요소만 필터링
-        students.stream()
-                .map(Student::getName)
-                .filter(name -> name.startsWith("홍"))
-                .forEach(System.out::println);
+        // 1. List 컬렉션 복사해서 -> List 불변 컬렉션 생성
+        List<Student> immutableList1 = List.copyOf(listStudent);
 
-        System.out.println("---------------");
+        System.out.println("immutableList1: " + System.identityHashCode(immutableList1));
+        immutableList1.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
+        System.out.println();
 
-        /// 중복 요소를 제거하고나서 '김'씨인 학생 요소만 필터링
-        students.stream().distinct()
-                .map(Student::getName)
-                .filter(name -> name.startsWith("김"))
-                .forEach(System.out::println);
+        /*
+         .of() 메서드로 생성한 컬렉션은 수정(추가/삭제)이(가) 불가능함.
+            => Immutable Collection
+
+            RuntimeException: UnsupportedOperationException
+            => students.add(new Student("김바다", 30));
+         */
+
+        // 2. List 불변 컬렉션 생성
+        List<Student> immutableList2 = List.of(students);
+
+        System.out.println("immutableList2: " + System.identityHashCode(immutableList2));
+        immutableList2.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
+        System.out.println();
+
+        // 3. 배열로부터 List 불변 컬렉션 생성
+        List<Student> immutableList3 = Arrays.asList(students);
+        System.out.println("immutableList3: " + System.identityHashCode(immutableList3));
+        immutableList3.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
     }
 }

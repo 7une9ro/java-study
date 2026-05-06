@@ -1,6 +1,5 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,30 +14,26 @@ public class Main {
                 , new Student("홍박사", 70)
                 , new Student("김수현", 80)};
 
-        ArrayList<Student> listStudent = new ArrayList<>();
-        Collections.addAll(listStudent, students);
+        HashSet<Student> setStudent = new HashSet<>();
+        Collections.addAll(setStudent, students);
 
-        System.out.println("------ List 불변 컬렉션 생성 ------");
+        System.out.println("------ Set 불변 컬렉션 생성 ------");
 
-        // 1. List 컬렉션 복사해서 -> List 불변 컬렉션 생성
-        List<Student> immutableList1 = List.copyOf(listStudent);
+        // 1. Set 컬렉션 복사해서 -> List 불변 컬렉션 생성
+        Set<Student> immutableSet1 = Set.copyOf(setStudent);
 
-        System.out.println("immutableList1: " + System.identityHashCode(immutableList1));
-        immutableList1.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
+        System.out.println("immutableSet1: " + System.identityHashCode(immutableSet1));
+        immutableSet1.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
         System.out.println();
 
-        /*
-         .of() 메서드로 생성한 컬렉션은 수정(추가/삭제)이(가) 불가능함.
-            => Immutable Collection
-
-            RuntimeException: UnsupportedOperationException
-            => students.add(new Student("김바다", 30));
+        // 2. Set 불변 컬렉션 생성
+        /*  toUnmodifiableSet()
+          내부적으로 중복을 제거하는 로직이 포함되어 있음
          */
+        Set<Student> immutableSet2 = Arrays.stream(students)
+                .collect(Collectors.toUnmodifiableSet());
 
-        // 2. List 불변 컬렉션 생성
-        List<Student> immutableList2 = List.of(students);
-
-        System.out.println("immutableList2: " + System.identityHashCode(immutableList2));
-        immutableList2.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
+        System.out.println("immutableList2: " + System.identityHashCode(immutableSet2));
+        immutableSet2.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
     }
 }

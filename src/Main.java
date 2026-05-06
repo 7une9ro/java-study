@@ -1,6 +1,7 @@
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,33 +16,36 @@ public class Main {
                 , new Student("홍박사", 70)
                 , new Student("김수현", 80)};
 
-        HashMap<Integer, Student> mapStudent = new HashMap<>();
-        int counter = 0;
-        for (Student student : students) {
-            mapStudent.put(counter++, student);
-        }
+        ArrayList<Student> listStudent = new ArrayList<>();
+        Collections.addAll(listStudent, students);
 
-        System.out.println("------ Map 불변 컬렉션 생성 ------");
+        System.out.println("------ List 불변 컬렉션 생성 ------");
 
-        // 1. Map 컬렉션 복사해서 -> Map 불변 컬렉션 생성
-        Map<Integer, Student> immutableMap1 = Map.copyOf(mapStudent);
+        // 1. List 컬렉션 복사해서 -> List 불변 컬렉션 생성
+        List<Student> immutableList1 = List.copyOf(listStudent);
 
-        System.out.println("immutableMap1: " + System.identityHashCode(immutableMap1));
-        immutableMap1.forEach((id, student) -> System.out.println("key: " + id + ", name = " + student.getName() + ", score = " + student.getScore()));
+        System.out.println("immutableList1: " + System.identityHashCode(immutableList1));
+        immutableList1.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
         System.out.println();
 
-        // 2. Map 불변 컬렉션 생성
-        /*  toUnmodifiableMap()
-          내부적으로 중복을 제거하는 로직이 포함되어 있음
-         */
-        Map<Integer, Student> immutableMap2 = IntStream.range(0, students.length)
-                .boxed()
-                .collect(Collectors.toUnmodifiableMap(
-                        i -> i,
-                        i -> students[i]
-                ));
+        /*
+         .of() 메서드로 생성한 컬렉션은 수정(추가/삭제)이(가) 불가능함.
+            => Immutable Collection
 
-        System.out.println("immutableMap2: " + System.identityHashCode(immutableMap2));
-        immutableMap2.forEach((id, student) -> System.out.println("key: " + id + ", name = " + student.getName() + ", score = " + student.getScore()));
+            RuntimeException: UnsupportedOperationException
+            => students.add(new Student("김바다", 30));
+         */
+
+        // 2. List 불변 컬렉션 생성
+        List<Student> immutableList2 = List.of(students);
+
+        System.out.println("immutableList2: " + System.identityHashCode(immutableList2));
+        immutableList2.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
+        System.out.println();
+
+        // 3. 배열로부터 List 불변 컬렉션 생성
+        List<Student> immutableList3 = Arrays.asList(students);
+        System.out.println("immutableList3: " + System.identityHashCode(immutableList3));
+        immutableList3.forEach(student -> System.out.println("name = " + student.getName() + ", score = " + student.getScore()));
     }
 }

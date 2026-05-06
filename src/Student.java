@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Student {
+public class Student implements Comparable<Student> {
     private final String name;
     private final int score;
 
@@ -39,5 +39,16 @@ public class Student {
     public int hashCode() {
         // name 필드를 기반으로 해시값 생성
         return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        // [오름차순 정렬]
+        // 현재 객체(this)가 작으면 음수, 같으면 0, 크면 양수 반환
+        return Integer.compare(this.score, o.score);
+
+        // [내림차순 정렬]
+        // 현재 객체(this)가 작으면 양수, 같으면 0, 크면 음수 반환
+//        return Integer.compare(o.score, this.score);
     }
 }

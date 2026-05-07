@@ -72,4 +72,14 @@ public class Student implements Comparable<Student> {
                 .filter(student -> student.getName().equals(findName))
                 .toList();
     }
+
+    public static List<Student> findPasser(List<Student> students) {
+
+        if (students == null || students.isEmpty())
+            return Collections.emptyList();
+
+        return students.stream()
+                .filter(student -> student.getScore() >= 60)
+                .toList();
+    }
 }

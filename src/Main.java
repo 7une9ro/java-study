@@ -16,25 +16,22 @@ public class Main {
         students.add(new Student("박짱구", 40));
         students.add(new Student("홍길동", 100));
 
-//        List<Student> findStudents = Student.findByStudentName(students, "김수현");
-        List<Student> findStudents = Student.findByStudentName(students, "이순신");
+        List<Student> passers = Student.findPasser(students);
 
-        System.out.println("\n------ 실습 1 - 방식 (1) ------");
-        if (findStudents.isEmpty())
-            System.out.println("해당 이름을 가진 학생은 존재하지 않습니다.");
+        System.out.println("\n------ 실습 2 - 방식 (1) ------");
+        if (passers.isEmpty())
+            System.out.println("합격자가 존재하지 않습니다.");
         else
-            findStudents.forEach(student ->
-                    System.out.println(String.format("찾은 학생의 이름과 점수: %s, %d",
-                            student.getName(), student.getScore())));
+            passers.forEach(student ->
+                    System.out.println("Id: " + student.getId() + ", 합격자: " + student.getName()));
 
-        System.out.println("\n------ 실습 1 - 방식 (2) ------");
-        Optional.of(findStudents)
+        System.out.println("\n------ 실습 2 - 방식 (2) ------");
+        Optional.of(passers)
                 .filter(list -> !list.isEmpty())
                 .ifPresentOrElse(
-                        list -> list.forEach(student ->
-                                System.out.println(String.format("찾은 학생의 이름과 점수: %s, %d",
-                                        student.getName(), student.getScore()))),
-                        () -> System.out.println("해당 이름을 가진 학생은 존재하지 않습니다.")
+                        (list -> list.forEach(student ->
+                                System.out.println("Id: " + student.getId() + ", 합격자: " + student.getName())))
+                        , () -> System.out.println("합격자가 존재하지 않습니다.")
                 );
     }
 }

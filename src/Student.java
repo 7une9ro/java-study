@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class Student implements Comparable<Student> {
@@ -58,5 +60,16 @@ public class Student implements Comparable<Student> {
         // [내림차순 정렬]
         // 현재 객체(this)가 작으면 양수, 같으면 0, 크면 음수 반환
 //        return Integer.compare(o.score, this.score);
+    }
+
+    public static List<Student> findByStudentName(List<Student> students, String findName) {
+
+        // 만약 원본 리스트 자체가 null이면 바로 빈 리스트 반환
+        if (students == null || students.isEmpty())
+            return Collections.emptyList();
+
+        return students.stream()
+                .filter(student -> student.getName().equals(findName))
+                .toList();
     }
 }

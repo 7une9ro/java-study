@@ -1,6 +1,5 @@
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,22 +15,16 @@ public class Main {
         students.add(new Student("박짱구", 40));
         students.add(new Student("홍길동", 100));
 
-        List<Student> passers = Student.findPasser(students);
+        try {
+            Student findStudent = Student.findById(students, 10)
+                    .orElseThrow(() ->
+                            new NoSuchElementException("해당 ID를 가진 학생은 존재하지 않습니다."));
 
-        System.out.println("\n------ 실습 2 - 방식 (1) ------");
-        if (passers.isEmpty())
-            System.out.println("합격자가 존재하지 않습니다.");
-        else
-            passers.forEach(student ->
-                    System.out.println("Id: " + student.getId() + ", 합격자: " + student.getName()));
+            System.out.printf("ID가 %d인 학생의 이름: %s\n"
+                    , findStudent.getId(), findStudent.getName());
 
-        System.out.println("\n------ 실습 2 - 방식 (2) ------");
-        Optional.of(passers)
-                .filter(list -> !list.isEmpty())
-                .ifPresentOrElse(
-                        (list -> list.forEach(student ->
-                                System.out.println("Id: " + student.getId() + ", 합격자: " + student.getName())))
-                        , () -> System.out.println("합격자가 존재하지 않습니다.")
-                );
+        } catch (NoSuchElementException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

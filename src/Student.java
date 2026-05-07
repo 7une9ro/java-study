@@ -1,6 +1,7 @@
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Student implements Comparable<Student> {
     private String name; // 계명될 수도 있으니 final 키워드 제거
@@ -81,5 +82,11 @@ public class Student implements Comparable<Student> {
         return students.stream()
                 .filter(student -> student.getScore() >= 60)
                 .toList();
+    }
+
+    public static Optional<Student> findById(List<Student> students, int findId) {
+        return students.stream()
+                .filter(student -> student.getId() == findId)
+                .findAny();
     }
 }

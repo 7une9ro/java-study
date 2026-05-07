@@ -14,52 +14,23 @@ public class Main {
         students.add(new Student("박짱구", 40));
         students.add(new Student("홍길동", 100));
 
-        System.out.println("모든 학생의 성적이 반타작 이상인가? : " +
-                students.stream()
-                        .allMatch(student -> student.getScore() > 50));
+        Student findStudent = students.stream()
+                .filter(student -> student.getName().equals("이순신"))
+                .findFirst()
+                .orElse(new Student("미등록된 학생입니다", 0));
 
-        System.out.println("만점을 받은 학생이 한명이라도 있는가? : " +
-                students.stream()
-                        .anyMatch(student -> student.getScore() == 100));
+        System.out.printf("찾은 학생의 이름: %s\n찾은 학생의 점수: %d",
+                findStudent.getName(), findStudent.getScore());
 
-        System.out.println("0점인 학생이 한명이라도 없는가? : " +
-                students.stream()
-                        .noneMatch(student -> student.getScore() == 0));
+        System.out.println();
 
-        System.out.println("50점 이상 받은 학생 수 : " +
-                students.stream()
-                        .filter(student -> student.getScore() >= 50)
-                        .count());
-
-        System.out.println("50점 이상 받은 학생들의 점수 총합 : " +
-                students.stream()
-                        .mapToInt(Student::getScore)
-                        .filter(score -> score >= 50)
-                        .sum());
-
-        System.out.println("50점 이상 받은 학생들의 평균 점수 : " +
-                students.stream()
-                        .mapToInt(Student::getScore)
-                        .filter(score -> score >= 50)
-                        .average()
-                        .orElse(0.0));
-
-        System.out.println("학생 중 최고 점수 : " +
-                students.stream()
-                        .mapToInt(Student::getScore)
-                        .max()
-                        .orElse(0));
-
-        System.out.println("학생 중 최저 점수 : " +
-                students.stream()
-                        .mapToInt(Student::getScore)
-                        .min()
-                        .orElse(0));
-
-        System.out.println("가장 먼저 시험지를 제출한 학생 : " +
-                students.stream()
-                        .findFirst()
-                        .map(Student::getName)
-                        .orElse("제출자 없음"));
+        students.stream()
+                .filter(student -> student.getScore() == 0)
+                .findFirst()
+                .map(Student::getName)
+                .ifPresentOrElse(
+                        name -> System.out.println("0점을 받은 학생: " + name)
+                        , () -> System.out.println("0점을 받은 학생이 없습니다!")
+                );
     }
 }

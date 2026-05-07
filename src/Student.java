@@ -1,12 +1,15 @@
 import java.util.Objects;
 
 public class Student implements Comparable<Student> {
-    private final String name;
-    private final int score;
+    private String name; // 계명될 수도 있으니 final 키워드 제거
+    private final int score; // 시험 성적은 절대로 변경되면 안되기에 final
+    private final int id; // 각 학생을 구분하기 위한 고유 번호
+    private static int count = 0; // 인스턴스를 생성할 때마다 id값을 자동으로 증가시키기 위한 변수
 
     public Student(String name, int score) {
         this.name = name;
         this.score = score;
+        this.id = count++;
     }
 
     public String getName() {
@@ -15,6 +18,14 @@ public class Student implements Comparable<Student> {
 
     public int getScore() {
         return score;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
